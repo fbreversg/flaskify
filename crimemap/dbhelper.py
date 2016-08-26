@@ -22,10 +22,9 @@ class DBHelper:
     def add_input(self, data):
         connection = self.connect()
         try:
-            # Candidato a sql injection
-            query = "INSERT INTO crimes (description) VALUES ('{}');".format(data)
+            query = "INSERT INTO crimes (description) VALUES (%s);"
             with connection.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, data)  # sql injection mitigation
                 connection.commit()
         finally:
             connection.close()
