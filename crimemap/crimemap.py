@@ -20,7 +20,7 @@ def home():
 @app.route("/add", methods=["POST"])
 def add():
     try:
-        data = request.form.get("userprint")
+        data = request.form.get("userinput")
         DB.add_input(data)
     except Exception as e:
         print(e)
