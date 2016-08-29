@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 import dbconfig
+import json
 
 if dbconfig.test:
     from mockdbhelper import MockDBHelper as DBHelper
@@ -14,12 +15,9 @@ DB = DBHelper()
 
 @app.route("/")
 def home():
-    try:
-        data = DB.get_all_inputs()
-    except Exception as e:
-        print(e)
-        data = None
-    return render_template("home.html", data=data)
+    crimes = DB.get_all_crimes()
+    crimes = json.dumps(crimes)
+    return render_template("home.html", crimes=crimes)
 
 
 @app.route("/add", methods=["POST"])
