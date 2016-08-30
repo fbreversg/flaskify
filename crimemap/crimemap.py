@@ -57,7 +57,7 @@ def submitecrime():
         longitude = float(request.form.get("longitude"))
     except ValueError:
         return home()
-    description = sanitize_string(request.form.get("description"))
+    description = str(sanitize_string(request.form.get("description")))
     DB.add_crime(category, date, latitude, longitude, description)
     return home()
 
@@ -71,7 +71,7 @@ def format_date(userdate):
 
 
 def sanitize_string(userinput):
-    whitelist = string.letters + string.digits + " !?$.,;:-'()&"
+    whitelist = string.ascii_letters + string.digits + " !?$.,;:-'()&"
     return filter(lambda x: x in whitelist, userinput)
 
 
